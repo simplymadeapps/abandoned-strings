@@ -168,6 +168,7 @@ if let rootDirectories = getRootDirectories() {
     let map = findAbandonedIdentifiersIn(rootDirectories, withStoryboard: withStoryboard)
     if map.isEmpty {
         print("No abandoned resource strings were detected.")
+        exit(EXIT_SUCCESS)
     }
     else {
         print("Abandoned resource strings were detected:")
@@ -184,7 +185,10 @@ if let rootDirectories = getRootDirectories() {
                 }
             }
         }
+        
+        exit(EXIT_FAILURE)
     }
 } else {
     print("Please provide the root directory for source code files as a command line argument.")
+    exit(EXIT_FAILURE)
 }
