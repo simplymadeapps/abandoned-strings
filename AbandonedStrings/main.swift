@@ -41,8 +41,8 @@ func contentsOfFile(_ filePath: String) -> String {
     do {
         return try String(contentsOfFile: filePath)
     }
-    catch { 
-        print("cannot read file!!!")
+    catch {
+        print("cannot read file!!! | %@", filePath)
         exit(1)
     }
 }
@@ -109,6 +109,10 @@ func findAbandonedIdentifiersIn(_ rootDirectories: [String], withStoryboard: Boo
     let sourceCode = concatenateAllSourceCodeIn(rootDirectories, withStoryboard: withStoryboard)
     let stringsFiles = findFilesIn(rootDirectories, withExtensions: ["strings"])
     for stringsFile in stringsFiles {
+        if stringsFile.contains("InfoPlist.strings") {
+            print("Skipping %@", stringsFile)
+            break
+        }
         dispatchGroup.enter()
         DispatchQueue.global().async {
             let abandonedIdentifiers = findStringIdentifiersIn(stringsFile, abandonedBySourceCode: sourceCode)
